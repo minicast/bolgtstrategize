@@ -1,0 +1,64 @@
+<template name="insertStructureFormSimple">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Insert a Structure</h3>
+    </div>
+    <div class="panel-body">
+      {{> quickForm collection="Structures" id="insertStructureFormSimple"
+        type="insert" template="bootstrap3-inline" fields="ascii"
+        afFieldInput-placeholder="Insert a Structure"
+      }}
+    </div>
+  </div>
+</template>
+
+<!-- <template name="insertStructureForm">
+  {{> quickForm collection="Structures" id="insertStructureForm" type="insert"
+    template="bootstrap3-inline" afFieldInput-placeholder="schemaLabel"}}
+  <br>
+</template> -->
+    <!-- label-class="sr-only" -->
+
+<template name="showStructuresCollection">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Structures Collection</h3>
+    </div>
+    <!-- <div class="panel-body"> -->
+      <ul class="list-group">
+        {{#each structures}}
+          <li class="list-group-item">
+            {{> structureTemplate}}
+          </li>
+        {{/each}}
+      </ul>
+    <!-- </div> -->
+    <!-- <div class="panel-footer">
+    </div> -->
+  </div>
+</template>
+
+<template name="structureTemplate">
+  <div style="text-align:center">
+    <button type="button" style="float:left"
+      class="btn-structure btn btn-default toggleable active">
+      <i class="fa fa-eye fa-lg"></i>
+    </button>
+    <button style="display:none;float:left" type="button"
+      class="btn-structure btn btn-default toggleable active">
+      <i class="fa fa-eye-slash fa-lg"></i>
+    </button>
+    <div  class="toggleable" style="display: none" id="d3svg-graph"> <!-- {{_id}} -->
+    </div>
+    <span>
+      {{printableAscii}}
+    </span>
+    <div style="margin-top:7px"> <!-- wait=true -->
+        <!-- <span>${\rm @}w\begin{Bmatrix}p,q{}\\{}w\end{Bmatrix}\overset{?}{\models}\Box\Diamond(p\land{}q)\lor(\forall{}x(\exists{}yR(x,y)))$</span> -->
+        <!-- <span>$\land$</span> -->
+      {{#mathjax}}
+        <span>${{latex}}$</span>
+      {{/mathjax}}
+    </div>
+  </div>
+</template>

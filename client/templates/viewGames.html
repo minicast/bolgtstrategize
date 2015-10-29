@@ -1,0 +1,82 @@
+<template name="insertViewGameForm">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Insert a Game</h3>
+    </div>
+    <div class="panel-body" style="text-align:center">
+      {{> quickForm collection="ViewGames" id="insertViewGameForm"
+          type="insert" template="bootstrap3-inline"
+          afFieldInput-placeholder="schemaLabel"
+      }}
+    </div>
+    <!-- <div class="panel-footer">
+
+    </div> -->
+  </div>
+</template>
+      <!-- afFieldInput-placeholder="Insert a Game2" -->
+      <!-- fields=["formulaAscii","structureAscii"] -->
+
+<template name="showViewGamesCollection">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Model Checking Strategic Game Form</h3>
+    </div>
+    <div class="panel-body" style="text-align:center;">
+      <ul class="list-group">
+        {{#each viewGames}}
+          {{> viewGameTemplate}}
+        {{/each}}
+      </ul>
+    </div>
+    <!-- <div class="panel-footer">
+    </div> -->
+  </div>
+</template>
+
+<template name="viewGameTemplate">
+  <span id="d3svg-game"> <!-- {{_id}} -->
+  </span> <!-- class="toggleable" style="display: none" -->
+  <button type="button" class="btn-game btn btn-info"  style="margin-bottom:4px;white-space: normal;">
+    Strategic Game Form <br> (Model checking Hintikka game)
+  </button>
+  <button type="button" class="btn-game btn btn-warning">
+    Colorize Game Form  <br>  (Backwards induction)
+  </button>
+  <button type="button" class="btn-game btn btn-success disabled">
+    Sinthesize Winning Strategies  <br> (Pruning dominated branches)
+  </button>
+  <!-- <button type="button" class="btn-game btn btn-default toggleable">
+    close
+  </button>
+  <button style="display: none" type="button"
+    class="btn-game btn btn-default toggleable">
+    view
+  </button> -->
+  <div class="row" style="padding-top:5px">
+    <div class="col-xs-6" style="padding-right:0.5px;">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Structure</h3>
+        </div>
+        <div class="panel-body">
+          {{#with structure}}
+            {{> structureTemplate}}
+          {{/with}}
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-6" style="padding-left:0.5px;">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Formula</h3>
+        </div>
+        <div class="panel-body">
+          {{#with formula}}
+            {{> formulaTemplate}}
+          {{/with}}
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

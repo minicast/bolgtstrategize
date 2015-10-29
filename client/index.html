@@ -1,0 +1,155 @@
+<head>
+  <title>AE</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- user-scalable=no -->
+</head>
+<body>
+  {{> applicationLayout}}
+  <!-- {{> leaderboardHeader}} -->
+</body>
+
+<template name="mainContent">
+  <div class="container-fluid">
+    <div class="row text-center">
+      <!-- mainContent -->
+      <!-- {{#mathjax}}<span>$\land$</span>{{/mathjax}}
+        MathJax needs a <span> or other <tag> to display properly -->
+
+
+
+      <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        {{> generatorStructure}}
+      </div> -->
+
+
+
+      <!-- <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4">
+        {{> insertFormulaForm}}
+      </div>
+      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4">
+        {{> showFormulasCollection}}
+      </div> -->
+
+      <!-- <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4">
+        {{> insertStructureFormSimple}}
+      </div>
+      <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4">
+        {{> showStructuresCollection}}
+      </div> -->
+
+      <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+        {{> insertStructureForm}}
+      </div> -->
+
+      <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        {{> d3svgStructure}}
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        {{> d3svg}}
+      </div> -->
+
+        <!-- {{> insertFormulaForm}}
+        {{> insertStructureFormSimple}} -->
+
+      <!-- <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+        {{> createGame}}
+      </div>
+      {{#if currentUser}}
+        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+          {{> activeGames}}
+        </div>
+        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+          {{> playableGames}}
+        </div>
+      {{/if}}
+      <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+        {{> publicGames}}
+      </div>
+      {{#if currentUser}}
+        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+          {{> initiatedGames}}
+        </div>
+      {{/if}} -->
+
+      <!-- {{#if currentUser}}
+        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+          {{> allGames}}
+        </div>
+        <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+          {{> postponedGames}}
+        </div>
+      {{/if}} -->
+
+    </div> <!-- row -->
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-10 col-lg-9">
+        {{> insertViewGameForm}}
+      </div>
+    </div> <!-- row -->
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-10 col-lg-9">
+        {{> showViewGamesCollection}}
+      </div>
+    </div> <!-- row -->
+
+  </div> <!-- container -->
+</template>
+
+<template name="d3svgStructure">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Structure</h3>
+    </div>
+    <div class="panel-body">
+      <span id="d3svgStructure"></span>
+    </div>
+    <!-- <div class="panel-footer">
+
+    </div> -->
+  </div>
+</template>
+
+<template name="d3svg">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Game Tree</h3>
+    </div>
+    <div class="panel-body">
+      <span id="d3svg"></span>
+    </div>
+    <!-- <div class="panel-footer">
+
+    </div> -->
+  </div>
+</template>
+
+
+    <!-- {{> afQuickField name='title'}} -->
+    <!-- {{> afQuickField name='author'}} -->
+    <!-- {{> afQuickField name='summary' rows=6}} -->
+    <!-- {{> afQuickField name='copies'}} -->
+<!-- <template name="insertFormulaForm">
+  {{#autoForm collection="Formulas" id="insertFormulaForm" type="insert"}}
+  <fieldset>
+    <legend>Add a Formula</legend>
+    {{> afQuickField name='ascii'}}
+    <div class="form-group{{#if afFieldIsInvalid name='ascii'}} has-error{{/if}}">
+      <div class="input-group">
+        <span class="input-group-addon">$</span>
+        {{> afFieldInput name='ascii'}}
+        <span class="input-group-addon">/each</span>
+      </div>
+      {{#if afFieldIsInvalid name='ascii'}}
+      <span class="help-block">{{afFieldMessage name='ascii'}}</span>
+      {{/if}}
+    </div>
+  </fieldset>
+  <button type="submit" class="btn btn-primary">Insert</button>
+  {{/autoForm}}
+</template> -->
+
+<template name="move">
+  <!--  -->
+</template>

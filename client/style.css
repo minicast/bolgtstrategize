@@ -1,0 +1,98 @@
+body {
+  /*background-color: grey*/
+}
+
+/* hull colors for structure generator */
+.hull {
+  fill: violet;
+  stroke: violet;
+  stroke-width: 90px;
+  stroke-linejoin: round;
+  opacity: 0.2;
+}
+.hull2 {
+  fill: yellow;
+  stroke: yellow;
+  stroke-width: 70px;
+  stroke-linejoin: round;
+  opacity: 0.2;
+}
+
+/* center panel header text */
+.panel-title {
+  text-align: center;
+}
+
+/* scroll content inside panels */
+.panel, .panel-body, .list-group-item {
+    overflow: auto;
+}
+
+/* d3 staff */
+ .node circle {
+   fill: #fff;
+   stroke: steelblue;
+   stroke-width: 3px;
+ }
+
+ .node text { font: 12px sans-serif; }
+
+ .link {
+   fill: none;
+   stroke: #ccc;
+   stroke-width: 2px;
+ }
+
+
+/* vertical center table data */
+.table > tbody > tr > td {
+  vertical-align: middle;
+}
+
+/* center table headers */
+th {
+  text-align: center;
+}
+
+/* rotate the letters in PLAEY */
+.rotate-letters {
+    height:8px;
+    line-height:16px;
+    position:relative;
+  }
+  span.norotate {
+    float:left;
+    margin-top:1px;
+    -ms-transform:rotate(0deg);
+    -moz-transform:rotate(0deg);
+    -webkit-transform:rotate(0deg);
+    -o-transform:rotate(0deg);
+  }
+  span.rotate {
+    margin-bottom:6px;
+    float:left;
+    -ms-transform:rotate(180deg);
+    -moz-transform:rotate(180deg);
+    -webkit-transform:rotate(180deg);
+    -o-transform:rotate(180deg);
+  }
+
+
+/*
+#publicGames {
+  color: orange
+}
+#initiatedGames {
+  color: red
+}
+#playableGames {
+  color: green
+}
+#activeGames {
+  color: blue
+}
+
+#createGame {
+  color: blue
+}
+*/

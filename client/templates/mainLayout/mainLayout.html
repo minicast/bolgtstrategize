@@ -1,0 +1,35 @@
+<template name="applicationLayout">
+  {{> Template.dynamic template=header}}
+  {{> Template.dynamic template=sidebar}}
+  {{> Template.dynamic template=main}}
+  {{> Template.dynamic template=footer}}
+</template>
+
+<template name="termsOfService">
+  <p>
+    <a href="/">Back</a> <br/>
+    termsOfService
+  </p>
+</template>
+
+<template name="mainLayout">
+  <header><h1>Header</h1></header>
+  <main>
+    {{>Template.dynamic template=content}}
+  </main>
+  <footer>We love Meteor</footer>
+</template>
+
+<template name="blogHome">
+  <p>This is the home page of our blog</p>
+  <p>
+    <a href="/hello-world">See Hello World Post</a>
+  </p>
+</template>
+
+<template name="blogPost">
+  <p>
+    <a href="/">Back</a> <br/>
+    This is a single blog post
+  </p>
+</template>

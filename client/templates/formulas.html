@@ -1,0 +1,58 @@
+<template name="insertFormulaForm">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Insert a Formula</h3>
+    </div>
+    <div class="panel-body">
+      {{> quickForm collection="Formulas" id="insertFormulaForm" type="insert"
+        template="bootstrap3-inline" afFieldInput-placeholder="Insert a Formula"
+      }}
+    </div>
+  </div>
+</template>
+    <!-- validationContext = "insertFormulaForm" -->
+
+<template name="showFormulasCollection">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Formulas Collection</h3>
+    </div>
+    <!-- <div class="panel-body"> -->
+      <ul class="list-group">
+        {{#each formulas}}
+          <li class="list-group-item">
+            {{> formulaTemplate}}
+          </li>
+        {{/each}}
+      </ul>
+    <!-- </div> -->
+    <!-- <div class="panel-footer">
+    </div> -->
+  </div>
+</template>
+
+<template name="formulaTemplate">
+  <div style="text-align:center">
+    <!-- <div>
+      {{ascii}}
+    </div> -->
+    <button type="button" style="float:left"
+      class="btn-formula btn btn-default toggleable active">
+      <i class="fa fa-eye fa-lg"></i> <!-- view -->
+    </button>
+    <button style="display:none;float:left" type="button"
+      class="btn-formula btn btn-default toggleable active">
+      <i class="fa fa-eye-slash fa-lg"></i>
+    </button>
+    <div  class="toggleable" style="display: none" id="d3svg-tree"> <!-- {{_id}} -->
+    </div>
+    <span>
+      {{unicode}}
+    </span>
+    <div style="padding-top:18px">
+      {{#mathjax}}
+        <span>${{latex}}$</span>
+      {{/mathjax}}
+    </div>
+  </div>
+</template>

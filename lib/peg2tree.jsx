@@ -25,33 +25,33 @@ formulaPeg2tree = (formulaPeg) => {
   if (typeof formulaPeg === "string")
     return {
       name: formulaPeg,
-      hoverLabel: "hoverLabel",
+      hoverLabel: "boolean atom",
       children: []
     }
   else if (formulaPeg[1] === "(") { // qmlf.parse("P(a)")  >>>  ["P", "(", "a", ")"]
     return {
       name: formulaPeg.join(""),
-      hoverLabel: "hoverLabel",
+      hoverLabel: "relational atom",
       children: []
     }
   } else if (formulaPeg[2] === "=") { // qmlf.parse("(x=a)")  >>>  [(", "x", "=", "a", ")"]
     return {
       name: formulaPeg.join("").slice(1,-1),
-      hoverLabel: "hoverLabel",
+      hoverLabel: "equality atom",
       children: []
     }
   } else if (formulaPeg[0] === "~" ||
       formulaPeg[0] === "*" || formulaPeg[0] === "#")
     return {
       name: formulaPeg[0],
-      hoverLabel: "hoverLabel",
+      hoverLabel: "negation",
       children: [ formulaPeg2tree(formulaPeg[1]) ]
     }
   else if ( formulaPeg[2] === "&" || formulaPeg[2] === "|" ||
        formulaPeg[2] === ">" || formulaPeg[2] === "^")
     return {
       name: formulaPeg[2],
-      hoverLabel: "hoverLabel",
+      hoverLabel: "junctor",
       children: [
         formulaPeg2tree(formulaPeg[1]),
         formulaPeg2tree(formulaPeg[3])
@@ -60,7 +60,7 @@ formulaPeg2tree = (formulaPeg) => {
   else if ( formulaPeg[1] === "$" || formulaPeg[1] === "!")
     return {
       name: formulaPeg[1] + formulaPeg[2],
-      hoverLabel: "hoverLabel",
+      hoverLabel: "quantifier",
       children: [
         formulaPeg2tree(formulaPeg[3])
       ]
@@ -545,9 +545,18 @@ getWinningStrategy = (colorGameTree, role) => {
   if (role === extractWinner(colorGameTree)) {
     return winningStrategy (colorGameTree, role);
   } else if (role !== extractWinner(colorGameTree)) {
-    return {name: `there is no winning strategy for the ${role} in this game`,
+    return {name: `The ${role}'s set`,
       color: "red",
-      children: [{name:"empty",color:"red",children:[]}],
+      children: [
+        {name:"of winning strategies",color:"red",
+          children:[
+            {name:"is",color:"red",children:[]},
+            {name:"empty",color:"red",children:[]},
+            {name:"in this",color:"red",children:[]},
+            {name:"game",color:"red",children:[]}
+          ]
+        }
+      ],
       player: role
     }
   } else {

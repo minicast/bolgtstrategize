@@ -117,7 +117,10 @@ Template.structureTemplate.rendered = function(){
           .attr("x2", function(d) { return d.target.x; })
           .attr("y2", function(d) { return d.target.y; });
      nodes.attr("cx", function(d) { return d.x; })
-          .attr("cy", function(d) { return d.y; });
+          .attr("cy", function(d) { return d.y; })
+          .style("cursor", function(d) {
+            return "help" //d._children ? "pointer" : "not-allowed";
+          });
      // texts.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
      labels.attr("transform", function(d) { return "translate(" + (d.x + 7) + "," + (d.y + 5) + ")"; });
     }); // End tick func

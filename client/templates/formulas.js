@@ -126,32 +126,34 @@ function update(source) {
       // var rectHeight = d3.select('text').node().getBBox().height;
       // var rectWidth = d3.select('text').node().getBBox().width;
 
-      /*
+      // /*
       nodeEnter.append("rect")
         .attr("width", function(d) {
             // var w = this.previousElementSibling.scrollWidth;
             var w;
             // if (d._children) w = this.previousElementSibling.clientWidth + 10;
-            if (d.children) w = this.previousElementSibling.clientWidth + 10;
-            else w = 60;
+            if (d.children) w = this.previousElementSibling.clientWidth + 40;
+            else w = 40;
             // console.log(w);
             // var l;
             // d._children ? l = d.unexpanded.length : l = d.name.length;
             // return l * 6 + 7;
             return w;
           })
-        .attr('height', function(){ return this.previousElementSibling.clientHeight + 10;})
+        .attr('height', 25)
+        // function(){ return this.previousElementSibling.clientHeight + 10;})
         .attr('rx', 5).attr('ry', 5)
-        .style("fill", "yellow") //#5bc0de #D2E4D2 .style('stroke-color', "#D2E4D2").style('stroke', "1")
+        .style("fill", "#D2E4D2") // yellow #5bc0de .style('stroke-color', "#D2E4D2").style('stroke', "1")
         .style('opacity', '0.5')
         .attr('transform', function(d){
             var xdev, ydev;
             if (d._children) xdev = (this.previousElementSibling.clientWidth+10)/2;
             else xdev = 30;
             ydev = (this.previousElementSibling.clientHeight+10)/2;
-            return "translate("+ -xdev + ',' + -ydev + ')';
+            // return "translate("+ -xdev + ',' + -ydev + ')';
+            return "translate("+ -20 + ',' + -18 + ')';
         });
-        */
+        // */
 
       // Transition nodes to their new position.
       var nodeUpdate = node.transition()
@@ -177,7 +179,7 @@ function update(source) {
           return "black" ;
         })
         .style("cursor", function(d) {
-          return "pointer" //d._children ? "pointer" : "not-allowed";
+          return "help" //d._children ? "pointer" : "not-allowed";
         })
         .style("font-size", 20)
         .style("fill-opacity", 1);

@@ -29,7 +29,7 @@ Template.formulaTemplate.events({
 
 // D3 render template
 Template.formulaTemplate.rendered = function(){
-  var formula = new Formula({ascii: Template.parentData(0).ascii})
+  var formula = new Formula({ascii: Template.parentData(0).ascii});
   Deps.autorun(function(){
     var leafNodeWidth = 60; // horizonthal distance between nodes
     var edgeLenght = 40; // vertical distance between nodes
@@ -47,7 +47,7 @@ Template.formulaTemplate.rendered = function(){
       .size([width, height])
       .separation(function() {return nodeSeparation;});
 
-    var diagonal = d3.svg.diagonal()
+    var diagonal = d3.svg.diagonal();
      // .projection(function(d) { return [d.y, d.x]; });
 
     // var svg = d3.select("body").append("svg")
@@ -100,7 +100,7 @@ function update(source) {
         // .style("fill", "#fff");
 
         nodeEnter.append("title").text(function(d) {
-          return d.hoverLabel // ? "click to expand" : "atomic syntax element";
+          return d.hoverLabel; // ? "click to expand" : "atomic syntax element";
         });
 
       nodeEnter.append("text")
@@ -112,7 +112,7 @@ function update(source) {
         .attr("text-anchor", 'middle')
         .text(function(d) {
           // return d._children ? d.unexpanded : ascii2unicode(d.name);
-          return d.hoverLabel // ascii2unicode(d.name);
+          return d.hoverLabel; // ascii2unicode(d.name);
         })
         .style("fill", "black"
           // function(d) { return d._children ? "FireBrick" : "#00f"; }
@@ -165,7 +165,7 @@ function update(source) {
        //  .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
 
        nodeUpdate.select("title").text(function(d) {
-         return d.hoverLabel // return d.name  //d._children ? "click to expand" : "atomic syntax element";
+         return d.hoverLabel; // return d.name  //d._children ? "click to expand" : "atomic syntax element";
        });
 
       nodeUpdate.select("text")
@@ -179,7 +179,7 @@ function update(source) {
           return "black" ;
         })
         .style("cursor", function(d) {
-          return "help" //d._children ? "pointer" : "not-allowed";
+          return "help"; //d._children ? "pointer" : "not-allowed";
         })
         .style("font-size", 20)
         .style("fill-opacity", 1);

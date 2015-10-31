@@ -45,7 +45,7 @@ Template.viewGameTemplate.events({
         qmls.parse(Template.parentData(0).structureAscii),
         "w"
       )
-    ) //colorize
+    ); //colorize
     var leafsNo = leafsInGameTree(gameTree);
     var treeDepth = depthOfGameTree(gameTree);
     Session.set("treeData", [gameTree]);
@@ -64,7 +64,7 @@ Template.viewGameTemplate.events({
           )
         ) //colorize
       // , "falsifier") //winningStrategy
-      , "verifier") //winningStrategy
+      , "verifier"); //winningStrategy
     var leafsNo = leafsInGameTree(gameTree);
     var treeDepth = depthOfGameTree(gameTree);
 
@@ -87,7 +87,7 @@ Template.viewGameTemplate.events({
             "w"
           )
         ) //colorize
-      , "falsifier") //winningStrategy
+      , "falsifier"); //winningStrategy
     var leafsNo = leafsInGameTree(gameTree);
     var treeDepth = depthOfGameTree(gameTree);
 
@@ -261,7 +261,8 @@ function makeD3treeFromGameData(formula, structure, gameTree, leafsNo, treeDepth
               return d.player ? "move by " + d.player + "\nunknown winning strategy" : "leaf node";
             }
           //   return d._children ? "click to expand" : "atomic syntax element";
-          });
+          })
+          .style('cursor', 'help');
 
         nodeEnter.append("text")
           // .attr("x", function(d) {
@@ -320,7 +321,10 @@ function makeD3treeFromGameData(formula, structure, gameTree, leafsNo, treeDepth
               return d.color;
           })
           .style("stroke-width", 3)
-          .style('opacity', '0.5');
+          .style('opacity', '0.5')
+          .style("cursor", function(d) {
+            return "help"; //d._children ? "pointer" : "not-allowed";
+          });
 
         // Transition nodes to their new position.
         var nodeUpdate = node.transition()
@@ -339,7 +343,7 @@ function makeD3treeFromGameData(formula, structure, gameTree, leafsNo, treeDepth
           } else {
             return d.player ? "move by " + d.player + "\nunknown winning strategy" : "leaf node";
           }
-        });
+        }).style('cursor', 'help');
 
         nodeUpdate.select("text")
           .text(function(d) {
@@ -367,8 +371,16 @@ function makeD3treeFromGameData(formula, structure, gameTree, leafsNo, treeDepth
           .attr('rx', 5).attr('ry', 5)
           // .style("fill", function(d) { return d._children ? "#f00" : "#5bc0de"; }) //#D2E4D2  "lightsteelblue"
           .style("fill", function(d) {
-            return d.color;
+            if (d.strokeColor) {
+              return d.strokeColor;
+            } else {
+              return d.color;
+            }
           })
+          .style("stroke", function(d){
+              return d.color;
+          })
+          .style("stroke-width", 5)
           // .style("cursor", function(d) { return d._children ? "pointer" : "not-allowed"; })
           //.style('stroke-color', function(d) { return d._children ? "#f00" : "#D2E4D2"; })
           //.style('stroke', "1")

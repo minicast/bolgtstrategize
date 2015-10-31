@@ -152,7 +152,10 @@ function update(source) {
             ydev = (this.previousElementSibling.clientHeight+10)/2;
             // return "translate("+ -xdev + ',' + -ydev + ')';
             return "translate("+ -20 + ',' + -18 + ')';
-        });
+        })
+        .style("cursor", function(d) {
+          return "help"; //d._children ? "pointer" : "not-allowed";
+        })        ;
         // */
 
       // Transition nodes to their new position.
@@ -177,9 +180,6 @@ function update(source) {
         .style("fill", function(d) {
           // return d._children ? "FireBrick" : "#00f";
           return "black" ;
-        })
-        .style("cursor", function(d) {
-          return "help"; //d._children ? "pointer" : "not-allowed";
         })
         .style("font-size", 20)
         .style("fill-opacity", 1);

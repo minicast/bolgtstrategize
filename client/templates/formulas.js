@@ -29,7 +29,7 @@ Template.formulaTemplate.events({
 
 // D3 render template
 Template.formulaTemplate.rendered = function(){
-  var formula = new Formula({ascii: Template.parentData(0).ascii})
+  var formula = new Formula({ascii: Template.parentData(0).ascii});
   Deps.autorun(function(){
     var leafNodeWidth = 60; // horizonthal distance between nodes
     var edgeLenght = 40; // vertical distance between nodes
@@ -47,7 +47,7 @@ Template.formulaTemplate.rendered = function(){
       .size([width, height])
       .separation(function() {return nodeSeparation;});
 
-    var diagonal = d3.svg.diagonal()
+    var diagonal = d3.svg.diagonal();
      // .projection(function(d) { return [d.y, d.x]; });
 
     // var svg = d3.select("body").append("svg")
@@ -100,7 +100,7 @@ function update(source) {
         // .style("fill", "#fff");
 
         nodeEnter.append("title").text(function(d) {
-          return d.hoverLabel // ? "click to expand" : "atomic syntax element";
+          return d.hoverLabel; // ? "click to expand" : "atomic syntax element";
         });
 
       nodeEnter.append("text")
@@ -112,7 +112,7 @@ function update(source) {
         .attr("text-anchor", 'middle')
         .text(function(d) {
           // return d._children ? d.unexpanded : ascii2unicode(d.name);
-          return d.hoverLabel // ascii2unicode(d.name);
+          return d.hoverLabel; // ascii2unicode(d.name);
         })
         .style("fill", "black"
           // function(d) { return d._children ? "FireBrick" : "#00f"; }
@@ -126,32 +126,37 @@ function update(source) {
       // var rectHeight = d3.select('text').node().getBBox().height;
       // var rectWidth = d3.select('text').node().getBBox().width;
 
-      /*
+      // /*
       nodeEnter.append("rect")
         .attr("width", function(d) {
             // var w = this.previousElementSibling.scrollWidth;
             var w;
             // if (d._children) w = this.previousElementSibling.clientWidth + 10;
-            if (d.children) w = this.previousElementSibling.clientWidth + 10;
-            else w = 60;
+            if (d.children) w = this.previousElementSibling.clientWidth + 40;
+            else w = 40;
             // console.log(w);
             // var l;
             // d._children ? l = d.unexpanded.length : l = d.name.length;
             // return l * 6 + 7;
             return w;
           })
-        .attr('height', function(){ return this.previousElementSibling.clientHeight + 10;})
+        .attr('height', 25)
+        // function(){ return this.previousElementSibling.clientHeight + 10;})
         .attr('rx', 5).attr('ry', 5)
-        .style("fill", "yellow") //#5bc0de #D2E4D2 .style('stroke-color', "#D2E4D2").style('stroke', "1")
+        .style("fill", "#D2E4D2") // yellow #5bc0de .style('stroke-color', "#D2E4D2").style('stroke', "1")
         .style('opacity', '0.5')
         .attr('transform', function(d){
             var xdev, ydev;
             if (d._children) xdev = (this.previousElementSibling.clientWidth+10)/2;
             else xdev = 30;
             ydev = (this.previousElementSibling.clientHeight+10)/2;
-            return "translate("+ -xdev + ',' + -ydev + ')';
-        });
-        */
+            // return "translate("+ -xdev + ',' + -ydev + ')';
+            return "translate("+ -20 + ',' + -18 + ')';
+        })
+        .style("cursor", function(d) {
+          return "help"; //d._children ? "pointer" : "not-allowed";
+        })        ;
+        // */
 
       // Transition nodes to their new position.
       var nodeUpdate = node.transition()
@@ -163,7 +168,7 @@ function update(source) {
        //  .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
 
        nodeUpdate.select("title").text(function(d) {
-         return d.hoverLabel // return d.name  //d._children ? "click to expand" : "atomic syntax element";
+         return d.hoverLabel; // return d.name  //d._children ? "click to expand" : "atomic syntax element";
        });
 
       nodeUpdate.select("text")
@@ -175,9 +180,6 @@ function update(source) {
         .style("fill", function(d) {
           // return d._children ? "FireBrick" : "#00f";
           return "black" ;
-        })
-        .style("cursor", function(d) {
-          return "pointer" //d._children ? "pointer" : "not-allowed";
         })
         .style("font-size", 20)
         .style("fill-opacity", 1);

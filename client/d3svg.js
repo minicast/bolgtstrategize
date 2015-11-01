@@ -35,9 +35,9 @@ Template.d3svg.rendered = function(){
     // var treeData = [ formulaPeg2tree(qmlf.parse("~(P(a)&~(Q(b)|~P(c)))")) ];
     var treeData = [
       // getWinningStrategy(colorize(formulaStructure2Game(
-      getWinningStrategy(colorize(formulaStructure2Game(
+      // getWinningStrategy(colorize(formulaStructure2Game(
       // colorize(formulaStructure2Game(
-      // formulaStructure2Game(
+      formulaStructure2Game(
         // qmlf.parse("(~(q&~s)|(~p&(~q|r)))"),
         // qmlf.parse("*p"),
         // qmlf.parse("#p"),
@@ -63,8 +63,8 @@ Template.d3svg.rendered = function(){
         "w"
         // "w_0"
       )
-      ) //colorize
-      , "verifier") //winningStrategy
+      // ) //colorize
+      // , "verifier") //winningStrategy
     ];
 
     console.log(treeData);

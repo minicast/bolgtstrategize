@@ -8,7 +8,9 @@ ViewGames.allow({
   insert: function (userId, doc) {
     return true;
   },
-  // update: function (userId, doc, fields, modifier) {},
+  update: function (userId, doc, fields, modifier) {
+    return true;
+  },
   // remove: function (userId, doc) {}
 });
 // define the Schema for ViewGame

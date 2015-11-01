@@ -8,82 +8,82 @@ leafsInGameTree = (gameTree) => {
   } else {
     return _(_(gameTree.children).map((x) => {
       return leafsInGameTree(x);
-    })).reduce(function(x,y){return x + y}, 0)
+    })).reduce(function(x,y){return x + y;}, 0);
   }
 };
 
 depthOfGameTree = (gameTree) => {
   if (gameTree.children.length === 0)
-    return 1
+    return 1;
   else
     return _(_(gameTree.children).map((x) => {
-      return depthOfGameTree(x)
-    })).max() + 1
-}
+      return depthOfGameTree(x);
+    })).max() + 1;
+};
 
 formulaPeg2tree = (formulaPeg) => {
   if (typeof formulaPeg === "string")
     return {
       name: formulaPeg,
-      hoverLabel: "hoverLabel",
+      hoverLabel: "boolean atom",
       children: []
-    }
+    };
   else if (formulaPeg[1] === "(") { // qmlf.parse("P(a)")  >>>  ["P", "(", "a", ")"]
     return {
       name: formulaPeg.join(""),
-      hoverLabel: "hoverLabel",
+      hoverLabel: "relational atom",
       children: []
-    }
+    };
   } else if (formulaPeg[2] === "=") { // qmlf.parse("(x=a)")  >>>  [(", "x", "=", "a", ")"]
     return {
       name: formulaPeg.join("").slice(1,-1),
-      hoverLabel: "hoverLabel",
+      hoverLabel: "equality atom",
       children: []
-    }
+    };
   } else if (formulaPeg[0] === "~" ||
       formulaPeg[0] === "*" || formulaPeg[0] === "#")
     return {
       name: formulaPeg[0],
-      hoverLabel: "hoverLabel",
+      hoverLabel: "negation",
       children: [ formulaPeg2tree(formulaPeg[1]) ]
-    }
+    };
   else if ( formulaPeg[2] === "&" || formulaPeg[2] === "|" ||
        formulaPeg[2] === ">" || formulaPeg[2] === "^")
     return {
       name: formulaPeg[2],
-      hoverLabel: "hoverLabel",
+      hoverLabel: "junctor",
       children: [
         formulaPeg2tree(formulaPeg[1]),
         formulaPeg2tree(formulaPeg[3])
       ]
-    }
+    };
   else if ( formulaPeg[1] === "$" || formulaPeg[1] === "!")
     return {
       name: formulaPeg[1] + formulaPeg[2],
-      hoverLabel: "hoverLabel",
+      hoverLabel: "quantifier",
       children: [
         formulaPeg2tree(formulaPeg[3])
       ]
-    }
+    };
   else
-    throw new Error("formulaPeg2tree called with bad imput")
-}
+    throw new Error("formulaPeg2tree called with bad imput");
+};
 
 addLinks2structureGraph = (structureGraph) => {
-  collectLinks = []
+  collectLinks = [];
   structureGraph.nodes.map((x) => {
-    collectLinks = collectLinks.concat(x.links)
-  })
+    collectLinks = collectLinks.concat(x.links);
+  });
   structureGraph["links"] = collectLinks.map(
     (x) => {
       return {
         source: structureGraph.metadomain.indexOf(x.source),
         target: structureGraph.metadomain.indexOf(x.target)
-      }
+      };
     }
-  )
-  return structureGraph
-}
+  );
+  return structureGraph;
+};
 
 //assumes unique metanominals
 structurePeg2graph = (structurePeg) => {
@@ -95,11 +95,11 @@ valuation: { ${getValuation(structurePeg).toString()} }
 relations: { ${getRelations(structurePeg).toString()} }
 domain: { ${getDomain(structurePeg).toString()} }
 predicates:
-    monadic: ${JSON.stringify(getMonadicPredicates(structurePeg))} `
+    monadic: ${JSON.stringify(getMonadicPredicates(structurePeg))} `;
     if (getDomain(structurePeg).length) {
-      nodeName = `${getDomain(structurePeg).toString()}@${structurePeg[0]}`
+      nodeName = `${getDomain(structurePeg).toString()}@${structurePeg[0]}`;
     } else {
-      nodeName = `${getValuation(structurePeg).toString()}@${structurePeg[0]}`
+      nodeName = `${getValuation(structurePeg).toString()}@${structurePeg[0]}`;
     }
     let structure = {
       metadomain: [ structurePeg[0] ],
@@ -114,12 +114,12 @@ predicates:
           relations: getRelations(structurePeg),
           links: getRelations(structurePeg).map(
             (x) => {
-              return {source: structurePeg[0], target: x}
+              return {source: structurePeg[0], target: x};
             }
           )
         }
       ]
-    }
+    };
     return structure;
   } else if (typeof structurePeg[0] === "object") {
     // console.log('many');
@@ -128,13 +128,13 @@ valuation: { ${getValuation(structurePeg[0]).toString()} }
 relations: { ${getRelations(structurePeg[0]).toString()} }
 domain: { ${getDomain(structurePeg[0]).toString()} }
 predicates:
-    monadic: ${JSON.stringify(getMonadicPredicates(structurePeg[0]))}`
-    let tailStructure = structurePeg2graph(structurePeg[2])
+    monadic: ${JSON.stringify(getMonadicPredicates(structurePeg[0]))}`;
+    let tailStructure = structurePeg2graph(structurePeg[2]);
     var nodeName;
     if (getDomain(structurePeg[0]).length) {
-      nodeName = `${getDomain(structurePeg[0]).toString()}@${structurePeg[0][0]}`
+      nodeName = `${getDomain(structurePeg[0]).toString()}@${structurePeg[0][0]}`;
     } else {
-      nodeName = `${getValuation(structurePeg[0]).toString()}@${structurePeg[0][0]}`
+      nodeName = `${getValuation(structurePeg[0]).toString()}@${structurePeg[0][0]}`;
     }
     tailStructure.metadomain.push(structurePeg[0][0]);
     tailStructure.nodes.push(
@@ -149,7 +149,7 @@ predicates:
         relations: getRelations(structurePeg[0]),
         links: getRelations(structurePeg[0]).map(
           (x) => {
-            return {source: structurePeg[0][0], target: x}
+            return {source: structurePeg[0][0], target: x};
           }
         )
       }
@@ -158,50 +158,50 @@ predicates:
   } else {
     console.log("error");
   }
-}
+};
 
 getPointWorldString = (structurePeg, pointWorld) => {
   return pointWorld + ":" +
     structurePeg2ascii(structurePeg).split(pointWorld + ":")[1]
-      .split(";")[0]
-}
+      .split(";")[0];
+};
 
 //assumes the VaLuation comes first
 getValuation = (structurePeg, pointWorld) => {
   if (typeof structurePeg[0] === "string") {
-    return _(_(structurePeg[2][0][1]).flatten()).without(",")
+    return _(_(structurePeg[2][0][1]).flatten()).without(",");
   } else if (typeof structurePeg[0] === "object") {
-    return getValuation(qmls.parse(getPointWorldString(structurePeg,pointWorld)))
+    return getValuation(qmls.parse(getPointWorldString(structurePeg,pointWorld)));
   } else {
-    throw new Error("getValuation called with bad input")
+    throw new Error("getValuation called with bad input");
   }
-}
+};
 
 //assumes the ReLations come second
 getRelations = (structurePeg, pointWorld) => {
   if (typeof structurePeg[0] === "string") {
-    return _(_(structurePeg[2][1][0][1]).flatten()).without(",")
+    return _(_(structurePeg[2][1][0][1]).flatten()).without(",");
   } else if (typeof structurePeg[0] === "object") {
-    return getRelations(qmls.parse(getPointWorldString(structurePeg,pointWorld)))
+    return getRelations(qmls.parse(getPointWorldString(structurePeg,pointWorld)));
   } else {
-    throw new Error("getRelations called with bad input")
+    throw new Error("getRelations called with bad input");
   }
-}
+};
 
 //assumes the DOmain comes third
 getDomain = (structurePeg, pointWorld) => {
   if (typeof structurePeg[0] === "string") {
     if (structurePeg[2][1][1]) {
-      return _(_(structurePeg[2][1][1][0][1]).flatten()).without(",")
+      return _(_(structurePeg[2][1][1][0][1]).flatten()).without(",");
     } else {
-      return []
+      return [];
     }
   } else if (typeof structurePeg[0] === "object") {
-    return getDomain(qmls.parse(getPointWorldString(structurePeg,pointWorld)))
+    return getDomain(qmls.parse(getPointWorldString(structurePeg,pointWorld)));
   } else {
-    throw new Error("getDomain called with bad input")
+    throw new Error("getDomain called with bad input");
   }
-}
+};
 
 //assumes the MonadicPredicates come fourth
 getMonadicPredicates = (structurePeg, pointWorld) => {
@@ -209,73 +209,73 @@ getMonadicPredicates = (structurePeg, pointWorld) => {
     if (structurePeg[2][1][1][1]) {
       return _.object(
           structurePeg[2][1][1][1][0][1].filter(
-          (x) => { return x !== "," }
+          (x) => { return x !== ","; }
         ).map(
           (x) => {
             // predicates = {}
             predicates = [
               x[0],
               typeof x[2] === "string" ? [ x[2] ] : x[2].filter(
-                (x) => {return x !== ","}
+                (x) => {return x !== ",";}
               )
-            ]
+            ];
             // typeof x[2] === "string" ? [ x[2] ] : x[2].filter(
             //   (x) => {return x !== ","}
             // )
-            return predicates
+            return predicates;
           }
         )
-      )
+      );
     } else {
-      return {}
+      return {};
     }
   } else if (typeof structurePeg[0] === "object") {
-    return getMonadicPredicates(qmls.parse(getPointWorldString(structurePeg,pointWorld)))
+    return getMonadicPredicates(qmls.parse(getPointWorldString(structurePeg,pointWorld)));
   } else {
-    throw new Error("getDomain called with bad input")
+    throw new Error("getDomain called with bad input");
   }
-}
+};
 
 atomTruthValue = (formulaPeg, structurePeg, pointWorld) => {
   if (typeof formulaPeg === "string" && typeof structurePeg[0] === "string") {
     let valuation = getValuation(structurePeg, pointWorld);
-    return valuation.indexOf(formulaPeg) !== -1
+    return valuation.indexOf(formulaPeg) !== -1;
   } else if (typeof formulaPeg === "string" && typeof structurePeg[0] === "object") {
     let valuation = getValuation(qmls.parse(getPointWorldString(structurePeg,pointWorld)));
-    return valuation.indexOf(formulaPeg) !== -1
+    return valuation.indexOf(formulaPeg) !== -1;
   } else {
-    throw new Error("atomTruthValue called with bad imput")
+    throw new Error("atomTruthValue called with bad imput");
   }
-}
+};
 
 atomPredicateTruthValue = (formulaPeg, structurePeg, pointWorld) => {
-  let predicate = formulaPeg[0]
+  let predicate = formulaPeg[0];
   if (typeof structurePeg[0] === "string") {
     let monadicPredicates = getMonadicPredicates(structurePeg, pointWorld);
-    return monadicPredicates[predicate].indexOf(formulaPeg[2]) !== -1
+    return monadicPredicates[predicate].indexOf(formulaPeg[2]) !== -1;
   } else if (typeof structurePeg[0] === "object") {
     let monadicPredicates =
     getMonadicPredicates(qmls.parse(getPointWorldString(structurePeg,pointWorld)));
-    return monadicPredicates[predicate].indexOf(formulaPeg[2]) !== -1
+    return monadicPredicates[predicate].indexOf(formulaPeg[2]) !== -1;
   } else {
-    throw new Error("atomPredicateTruthValue called with bad imput")
+    throw new Error("atomPredicateTruthValue called with bad imput");
   }
-}
+};
 
 formulaPeg2ascii = (formulaPeg) => {
-  return _(_(_(formulaPeg).flatten()).without(",")).join('')
-}
+  return _(_(_(formulaPeg).flatten()).without(",")).join('');
+};
 
 structurePeg2ascii = (structurePeg) => {
-  return _(structurePeg).flatten().join('')
-}
+  return _(structurePeg).flatten().join('');
+};
 
 substitution = (formulaPeg, variable, groundTerm) => {
   var re = new RegExp(variable,"g");
   return qmlf.parse(
     formulaPeg2ascii(formulaPeg).replace(re, groundTerm)
   );
-}
+};
 
 formulaStructure2Game = (formulaPeg, structurePeg, pointWorld) => {
   if (typeof formulaPeg === "string") {
@@ -293,22 +293,22 @@ formulaStructure2Game = (formulaPeg, structurePeg, pointWorld) => {
           name: JSON.stringify(atomTruthValue(formulaPeg, structurePeg, pointWorld)),
           color: (() => {
             if (atomTruthValue(formulaPeg, structurePeg, pointWorld)) {
-              return "green"
+              return "green";
             } else {
-              return "red"
+              return "red";
             }
           })(),
           strokeColor: (() => {
             if (atomTruthValue(formulaPeg, structurePeg, pointWorld)) {
-              return "green"
+              return "green";
             } else {
-              return "red"
+              return "red";
             }
           })(),
           children: []
         }
       ]
-    }
+    };
   } else if (formulaPeg[1] === "(") {
     let valuation = getValuation(structurePeg, pointWorld);
     let domain = getDomain(structurePeg, pointWorld);
@@ -325,22 +325,22 @@ formulaStructure2Game = (formulaPeg, structurePeg, pointWorld) => {
           ),
           color: (() => {
             if (atomPredicateTruthValue(formulaPeg, structurePeg, pointWorld)) {
-              return "green"
+              return "green";
             } else {
-              return "red"
+              return "red";
             }
           })(),
           strokeColor: (() => {
             if (atomPredicateTruthValue(formulaPeg, structurePeg, pointWorld)) {
-              return "green"
+              return "green";
             } else {
-              return "red"
+              return "red";
             }
           })(),
           children: []
         }
       ]
-    }
+    };
   } else if (formulaPeg[1] === "$") {
     let valuation = getValuation(structurePeg, pointWorld);
     let domain = getDomain(structurePeg, pointWorld);
@@ -353,10 +353,10 @@ formulaStructure2Game = (formulaPeg, structurePeg, pointWorld) => {
       children: domain.map(
         (x) => {
           return formulaStructure2Game(
-            substitution(formulaPeg[3],formulaPeg[2],x), structurePeg, pointWorld)
+            substitution(formulaPeg[3],formulaPeg[2],x), structurePeg, pointWorld);
         }
       )
-    }
+    };
   } else if (formulaPeg[1] === "!") {
     let valuation = getValuation(structurePeg, pointWorld);
     let domain = getDomain(structurePeg, pointWorld);
@@ -369,16 +369,16 @@ formulaStructure2Game = (formulaPeg, structurePeg, pointWorld) => {
       children: domain.map(
         (x) => {
           return formulaStructure2Game(
-            substitution(formulaPeg[3],formulaPeg[2],x), structurePeg, pointWorld)
+            substitution(formulaPeg[3],formulaPeg[2],x), structurePeg, pointWorld);
         }
       )
-    }
+    };
   } else if (formulaPeg[0] === "~") {
     return {
       name: `${formulaPeg2ascii(formulaPeg)}@${pointWorld}`,
       player: "swaper", color: "PaleGoldenRod",
       children: [ formulaStructure2Game(formulaPeg[1], structurePeg, pointWorld) ]
-    }
+    };
   } else if (formulaPeg[0] === "*") {
     if (getRelations(structurePeg, pointWorld).length === 0) {
       return {
@@ -393,17 +393,17 @@ formulaStructure2Game = (formulaPeg, structurePeg, pointWorld) => {
             children: []
           }
         ]
-      }
+      };
     } else {
       return {
         name: `${formulaPeg2ascii(formulaPeg)}@${pointWorld}`,
         player: "verifier", color: "PaleGreen",
         children: getRelations(structurePeg, pointWorld).map(
           (x) => {
-            return formulaStructure2Game(formulaPeg[1], structurePeg, x)
+            return formulaStructure2Game(formulaPeg[1], structurePeg, x);
           }
         )
-      }
+      };
     }
   } else if (formulaPeg[0] === "#") {
     if (getRelations(structurePeg, pointWorld).length === 0) {
@@ -419,17 +419,17 @@ formulaStructure2Game = (formulaPeg, structurePeg, pointWorld) => {
             children: []
           }
         ]
-      }
+      };
     } else {
       return {
         name: `${formulaPeg2ascii(formulaPeg)}@${pointWorld}`,
         player: "falsifier", color: "Pink",
         children: getRelations(structurePeg, pointWorld).map(
           (x) => {
-            return formulaStructure2Game(formulaPeg[1], structurePeg, x)
+            return formulaStructure2Game(formulaPeg[1], structurePeg, x);
           }
         )
-      }
+      };
     }
   } else if (formulaPeg[2] === "&") {
     return {
@@ -439,7 +439,7 @@ formulaStructure2Game = (formulaPeg, structurePeg, pointWorld) => {
         formulaStructure2Game(formulaPeg[1], structurePeg, pointWorld),
         formulaStructure2Game(formulaPeg[3], structurePeg, pointWorld),
       ]
-    }
+    };
   } else if (formulaPeg[2] === "|") {
     return {
       name: `${formulaPeg2ascii(formulaPeg)}@${pointWorld}`,
@@ -448,11 +448,11 @@ formulaStructure2Game = (formulaPeg, structurePeg, pointWorld) => {
         formulaStructure2Game(formulaPeg[1], structurePeg, pointWorld),
         formulaStructure2Game(formulaPeg[3], structurePeg, pointWorld),
       ]
-    }
+    };
   } else {
-    throw new Error("formulaStructure2Game called with bad imput")
+    throw new Error("formulaStructure2Game called with bad imput");
   }
-}
+};
 
 colorize = (gameTree) => {
   if (gameTree.children.length) {
@@ -502,13 +502,13 @@ colorize = (gameTree) => {
       gameTree["children"] = gameTree.children.map(
         (x) => { return colorize(x); }
       );
-      let kidsColors = gameTree.children.map((x) => { return x.strokeColor })
-      if (kidsColors.every((x) => { return x === "red" }) ||
-          kidsColors.every((x) => { return x === "green" })) {
+      let kidsColors = gameTree.children.map((x) => { return x.strokeColor; });
+      if (kidsColors.every((x) => { return x === "red"; }) ||
+          kidsColors.every((x) => { return x === "green"; })) {
         // gameTree["color"] = gameTree.children[0].color;
         gameTree["strokeColor"] = gameTree.children[0].strokeColor;
-      } else if (kidsColors.some((x) => { return x === "red" }) &&
-                 kidsColors.some((x) => { return x === "green"})) {
+      } else if (kidsColors.some((x) => { return x === "red"; }) &&
+                 kidsColors.some((x) => { return x === "green";})) {
         if (gameTree.player === "verifier") {
           // gameTree["color"] = "green";
           gameTree["strokeColor"] = "green";
@@ -529,67 +529,76 @@ colorize = (gameTree) => {
     // console.log("leaf");
     return gameTree;
   }
-}
+};
 
 extractWinner = (colorGameTree) => {
   if (colorGameTree.strokeColor === "green") {
-    return "verifier"
+    return "verifier";
   } else if (colorGameTree.strokeColor === "red") {
-    return "falsifier"
+    return "falsifier";
   } else {
-    return "undecided"
+    return "undecided";
   }
-}
+};
 
 getWinningStrategy = (colorGameTree, role) => {
   if (role === extractWinner(colorGameTree)) {
     return winningStrategy (colorGameTree, role);
   } else if (role !== extractWinner(colorGameTree)) {
-    return {name: `there is no winning strategy for the ${role} in this game`,
+    return {name: `The ${role}'s set`,
       color: "red",
-      children: [{name:"empty",color:"red",children:[]}],
+      children: [
+        {name:"of winning strategies",color:"red",
+          children:[
+            {name:"is",color:"red",children:[]},
+            {name:"empty",color:"red",children:[]},
+            {name:"in this",color:"red",children:[]},
+            {name:"game",color:"red",children:[]}
+          ]
+        }
+      ],
       player: role
-    }
+    };
   } else {
-    throw new Error("getWinningStrategy called with bad input")
+    throw new Error("getWinningStrategy called with bad input");
   }
-}
+};
 
 winningStrategy = (colorGameTree, role) => {
   colorGameTree["children"] = colorGameTree.children.map(
     (x) => {
-      return winningStrategy(x, role)
+      return winningStrategy(x, role);
     }
-  )
+  );
   if (role === "verifier") {
     if (colorGameTree.player === role) {
       if (colorGameTree.children.some((x) => {
-        return x.strokeColor === "green"
+        return x.strokeColor === "green";
       })
       ) {
         colorGameTree["children"] = colorGameTree.children.filter(
           (x) => {
-            return x.strokeColor === "green"
+            return x.strokeColor === "green";
           }
-        )//.slice(0,1)
+        ); //.slice(0,1)
       }
     }
   } else if (role === "falsifier") {
     if (colorGameTree.player === role) {
       if (colorGameTree.children.some((x) => {
-        return x.strokeColor === "red"
+        return x.strokeColor === "red";
       })
       ) {
         colorGameTree["children"] = colorGameTree.children.filter(
           (x) => {
-            return x.strokeColor === "red"
+            return x.strokeColor === "red";
           }
-        )//.slice(0,1)
+        );//.slice(0,1)
       }
     }
   }
-  return colorGameTree
-}
+  return colorGameTree;
+};
 
 
 /*

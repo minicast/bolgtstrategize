@@ -1,7 +1,8 @@
 Template.showViewGamesCollection.helpers({
   // rendered: ->
   viewGames: function() {
-    return ViewGames.find({},{sort: {createdAt: -1}, limit: 1});
+    // return ViewGames.find({},{sort: {createdAt: -1}, limit: 1});
+    return [Session.get('currentGame')];
   }
 });
 
@@ -18,11 +19,15 @@ Template.viewGameTemplate.events({
     // ViewGames.update({_id:id}, {$set:{
     //   createdAt: JSON.stringify(Date.now())
     // }});
-    var formula = new Formula({ascii: Template.parentData(0).formulaAscii});
-    var structure = new Formula({ascii: Template.parentData(0).structureAscii});
+    // var formula = new Formula({ascii: Template.parentData(0).formulaAscii});
+    // var structure = new Formula({ascii: Template.parentData(0).structureAscii});
+    var formula = new Formula({ascii: Session.get('currentGame').formulaAscii});
+    var structure = new Formula({ascii: Session.get('currentGame').structureAscii});
     var gameTree = formulaStructure2Game(
-      qmlf.parse(Template.parentData(0).formulaAscii),
-      qmls.parse(Template.parentData(0).structureAscii),
+      // qmlf.parse(Template.parentData(0).formulaAscii),
+      // qmls.parse(Template.parentData(0).structureAscii),
+      qmlf.parse(Session.get('currentGame').formulaAscii),
+      qmls.parse(Session.get('currentGame').structureAscii),
       "w" //replace this with the first possible world in the model
     );
     var leafsNo = leafsInGameTree(gameTree);
@@ -37,12 +42,17 @@ Template.viewGameTemplate.events({
   "click #colorize": function(event, template) {
     $("#d3svg-game").empty();
     Session.set("mode", "colorize");
-    var formula = new Formula({ascii: Template.parentData(0).formulaAscii});
-    var structure = new Formula({ascii: Template.parentData(0).structureAscii});
+    // var formula = new Formula({ascii: Template.parentData(0).formulaAscii});
+    // var structure = new Formula({ascii: Template.parentData(0).structureAscii});
+    var formula = new Formula({ascii: Session.get('currentGame').formulaAscii});
+    var structure = new Formula({ascii: Session.get('currentGame').structureAscii});
+
     var gameTree = colorize(
       formulaStructure2Game(
-        qmlf.parse(Template.parentData(0).formulaAscii),
-        qmls.parse(Template.parentData(0).structureAscii),
+        // qmlf.parse(Template.parentData(0).formulaAscii),
+        // qmls.parse(Template.parentData(0).structureAscii),
+        qmlf.parse(Session.get('currentGame').formulaAscii),
+        qmls.parse(Session.get('currentGame').structureAscii),
         "w"
       )
     ); //colorize
@@ -53,13 +63,18 @@ Template.viewGameTemplate.events({
   },
   "click #synthesizeVerif": function(event, template) {
     $("#d3svg-game").empty();
-    var formula = new Formula({ascii: Template.parentData(0).formulaAscii});
-    var structure = new Formula({ascii: Template.parentData(0).structureAscii});
+    // var formula = new Formula({ascii: Template.parentData(0).formulaAscii});
+    // var structure = new Formula({ascii: Template.parentData(0).structureAscii});
+    var formula = new Formula({ascii: Session.get('currentGame').formulaAscii});
+    var structure = new Formula({ascii: Session.get('currentGame').structureAscii});
+
     var gameTree = getWinningStrategy(
         colorize(
           formulaStructure2Game(
-            qmlf.parse(Template.parentData(0).formulaAscii),
-            qmls.parse(Template.parentData(0).structureAscii),
+            // qmlf.parse(Template.parentData(0).formulaAscii),
+            // qmls.parse(Template.parentData(0).structureAscii),
+            qmlf.parse(Session.get('currentGame').formulaAscii),
+            qmls.parse(Session.get('currentGame').structureAscii),
             "w"
           )
         ) //colorize
@@ -77,13 +92,17 @@ Template.viewGameTemplate.events({
   "click #synthesizeFalsi": function(event, template) {
     $("#d3svg-game").empty();
     Session.set("mode", "synthesizeFalsi");
-    var formula = new Formula({ascii: Template.parentData(0).formulaAscii});
-    var structure = new Formula({ascii: Template.parentData(0).structureAscii});
+    // var formula = new Formula({ascii: Template.parentData(0).formulaAscii});
+    // var structure = new Formula({ascii: Template.parentData(0).structureAscii});
+    var formula = new Formula({ascii: Session.get('currentGame').formulaAscii});
+    var structure = new Formula({ascii: Session.get('currentGame').structureAscii});
     var gameTree = getWinningStrategy(
         colorize(
           formulaStructure2Game(
-            qmlf.parse(Template.parentData(0).formulaAscii),
-            qmls.parse(Template.parentData(0).structureAscii),
+            // qmlf.parse(Template.parentData(0).formulaAscii),
+            // qmls.parse(Template.parentData(0).structureAscii),
+            qmlf.parse(Session.get('currentGame').formulaAscii),
+            qmls.parse(Session.get('currentGame').structureAscii),
             "w"
           )
         ) //colorize
@@ -100,11 +119,15 @@ Template.viewGameTemplate.events({
 
 // D3 render template
 Template.viewGameTemplate.rendered = function(){
-  var formula = new Formula({ascii: Template.parentData(0).formulaAscii});
-  var structure = new Formula({ascii: Template.parentData(0).structureAscii});
+  // var formula = new Formula({ascii: Template.parentData(0).formulaAscii});
+  // var structure = new Formula({ascii: Template.parentData(0).structureAscii});
+  var formula = new Formula({ascii: Session.get('currentGame').formulaAscii});
+  var structure = new Formula({ascii: Session.get('currentGame').structureAscii});
   var gameTree = formulaStructure2Game(
-    qmlf.parse(Template.parentData(0).formulaAscii),
-    qmls.parse(Template.parentData(0).structureAscii),
+    // qmlf.parse(Template.parentData(0).formulaAscii),
+    // qmls.parse(Template.parentData(0).structureAscii),
+    qmlf.parse(Session.get('currentGame').formulaAscii),
+    qmls.parse(Session.get('currentGame').structureAscii),
     "w" //replace this with the first possible world in the model
   );
   var leafsNo = leafsInGameTree(gameTree);
@@ -368,7 +391,7 @@ function makeD3treeFromGameData(formula, structure, gameTree, leafsNo, treeDepth
               return w;
             })
           .attr('height', function() { return this.previousElementSibling.clientHeight + 10;} )
-          .attr('rx', 5).attr('ry', 5)
+          .attr('rx', 10).attr('ry', 10)
           // .style("fill", function(d) { return d._children ? "#f00" : "#5bc0de"; }) //#D2E4D2  "lightsteelblue"
           .style("fill", function(d) {
             if (d.strokeColor) {

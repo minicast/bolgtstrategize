@@ -29,8 +29,9 @@ Template.formulaTemplate.events({
 
 // D3 render template
 Template.formulaTemplate.rendered = function(){
-  var formula = new Formula({ascii: Template.parentData(0).ascii});
+  // var formula = new Formula({ascii: Template.parentData(0).ascii});
   Deps.autorun(function(){
+    var formula = new Formula({ascii: Session.get('currentGame').formulaAscii});
     var leafNodeWidth = 60; // horizonthal distance between nodes
     var edgeLenght = 40; // vertical distance between nodes
     // ************** Generate the tree diagram  *****************
@@ -52,6 +53,9 @@ Template.formulaTemplate.rendered = function(){
 
     // var svg = d3.select("body").append("svg")
     // var svg = d3.select("#d3svg" + Template.parentData(0)._id).append("svg")
+
+    $("#d3svg-tree").empty();
+
     var svg = d3.select("#d3svg-tree").append("svg")
       .attr("width", width + margin.right + margin.left)
       .attr("height", height + margin.top + margin.bottom)
@@ -60,7 +64,8 @@ Template.formulaTemplate.rendered = function(){
 
     var treeData = [
       formulaPeg2tree(
-        qmlf.parse(Template.parentData(0).ascii)
+        // qmlf.parse(Template.parentData(0).ascii)
+        qmlf.parse(Session.get('currentGame').formulaAscii)
       )
     ];
 
@@ -126,9 +131,9 @@ function update(source) {
       // var rectHeight = d3.select('text').node().getBBox().height;
       // var rectWidth = d3.select('text').node().getBBox().width;
 
-      // /*
+
       nodeEnter.append("rect")
-        .attr("width", function(d) {
+      /*  .attr("width", function(d) {
             // var w = this.previousElementSibling.scrollWidth;
             var w;
             // if (d._children) w = this.previousElementSibling.clientWidth + 10;
@@ -155,8 +160,8 @@ function update(source) {
         })
         .style("cursor", function(d) {
           return "help"; //d._children ? "pointer" : "not-allowed";
-        })        ;
-        // */
+        });
+        */
 
       // Transition nodes to their new position.
       var nodeUpdate = node.transition()
@@ -183,6 +188,37 @@ function update(source) {
         })
         .style("font-size", 20)
         .style("fill-opacity", 1);
+
+      nodeUpdate.select("rect")
+        .attr("width", function(d) {
+            return 40;
+            // // var w = this.previousElementSibling.scrollWidth;
+            // var w;
+            // // if (d._children) w = this.previousElementSibling.clientWidth + 10;
+            // if (d.children) w = this.previousElementSibling.clientWidth + 40;
+            // else w = 40;
+            // // console.log(w);
+            // // var l;
+            // // d._children ? l = d.unexpanded.length : l = d.name.length;
+            // // return l * 6 + 7;
+            // return w;
+          })
+        .attr('height', 25)
+        // function(){ return this.previousElementSibling.clientHeight + 10;})
+        .attr('rx', 5).attr('ry', 5)
+        .style("fill", "#D2E4D2") // yellow #5bc0de .style('stroke-color', "#D2E4D2").style('stroke', "1")
+        .style('opacity', '0.5')
+        .attr('transform', function(d){
+            var xdev, ydev;
+            if (d._children) xdev = (this.previousElementSibling.clientWidth+10)/2;
+            else xdev = 30;
+            ydev = (this.previousElementSibling.clientHeight+10)/2;
+            // return "translate("+ -xdev + ',' + -ydev + ')';
+            return "translate("+ -20 + ',' + -18 + ')';
+        })
+        .style("cursor", function(d) {
+          return "help"; //d._children ? "pointer" : "not-allowed";
+        });
 
       // nodeUpdate.select("rect")
       //   .attr("width", function(d) {

@@ -33,11 +33,13 @@ Template.structureTemplate.rendered = function(){
   // var formula = new Formula({ascii: Template.parentData(0).ascii})
   Deps.autorun(function(){
 
-    var structure = new Structure({ascii: Template.parentData(0).ascii});
+    // var structure = new Structure({ascii: Template.parentData(0).ascii});
+    var structure = new Structure({ascii: Session.get('currentGame').structureAscii});
     var metaDomainSize = structure.metaDomainSize();
 
     graph = addLinks2structureGraph(structurePeg2graph(qmls.parse(
-      Template.parentData(0).ascii
+      // Template.parentData(0).ascii
+      Session.get('currentGame').structureAscii
     )))
 
     // ************** Generate the tree diagram  *****************
@@ -48,8 +50,9 @@ Template.structureTemplate.rendered = function(){
     var color =  function() {return 'LightSteelBlue';}; //DarkSeaGreen Aquamarine d3.scale.category20();
 
     // var svg = d3.select("#d3svg" + Template.parentData(0)._id)
-    var svg = d3.select("#d3svg-graph")
-      .append("svg").attr("height",height).attr("width",width);
+    $("#d3svg-graph").empty();
+
+    var svg = d3.select("#d3svg-graph").append("svg").attr("height",height).attr("width",width);
 
     /* Build the directional arrows for the links/edges */
     svg.append("svg:defs").selectAll("marker").data(["end"])

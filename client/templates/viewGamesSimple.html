@@ -1,0 +1,41 @@
+<template name="showViewGamesCollectionSimple">
+  <!-- {{> treeFromSession}} -->
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">Select a Game</h3>
+    </div>
+    <div class="panel-body" style="text-align:center;padding-top:1px">
+      <ul class="list-group" style="margin-bottom:0">
+        {{#if Template.subscriptionsReady}}
+          {{#each viewGames}}
+            {{> viewGameTemplateSimple}}
+          {{/each}}
+        {{else}}
+          Loading ...
+        {{/if}}
+      </ul>
+    </div>
+    <!-- <div class="panel-footer">
+    </div> -->
+  </div>
+</template>
+
+<template name="viewGameTemplateSimple">
+  <div class="row" style="padding-top:5px">
+    <div class="panel panel-default" style="margin-left:2px;margin-right:2px;margin-bottom:0px;">
+      <li style="padding:5px;">
+      <strong>Formula:</strong>
+        {{#mathjax}}
+          <span>${{formula.latex}}$</span>
+        {{/mathjax}}
+        <!-- <span>{{formula.ascii}}</span>  -->
+        <br>
+      <strong>Model:</strong>
+        {{#mathjax}}
+          <span style="margin-bottom:2px">${{structure.latex}}$</span>
+        {{/mathjax}}
+        <!-- {{structure.ascii}} -->
+      </li>
+    </div>
+  </div>
+</template>

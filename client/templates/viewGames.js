@@ -14,7 +14,7 @@ Template.viewGameTemplate.events({
   "click #gameForm": function(event, template) {
     // var el = template.find("#d3svg-game");
     $("#d3svg-game").empty();
-    Session.set("mode", "strategicForm");
+    // Session.set("mode", "strategicForm");
     var id = template.data._id;
     // ViewGames.update({_id:id}, {$set:{
     //   createdAt: JSON.stringify(Date.now())
@@ -41,7 +41,7 @@ Template.viewGameTemplate.events({
   },
   "click #colorize": function(event, template) {
     $("#d3svg-game").empty();
-    Session.set("mode", "colorize");
+    // Session.set("mode", "colorize");
     // var formula = new Formula({ascii: Template.parentData(0).formulaAscii});
     // var structure = new Formula({ascii: Template.parentData(0).structureAscii});
     var formula = new Formula({ascii: Session.get('currentGame').formulaAscii});
@@ -58,7 +58,7 @@ Template.viewGameTemplate.events({
     ); //colorize
     var leafsNo = leafsInGameTree(gameTree);
     var treeDepth = depthOfGameTree(gameTree);
-    Session.set("treeData", [gameTree]);
+    // Session.set("treeData", [gameTree]);
     makeD3treeFromGameData(formula, structure, gameTree, leafsNo, treeDepth, "#d3svg-game svg");
   },
   "click #synthesizeVerif": function(event, template) {
@@ -83,15 +83,15 @@ Template.viewGameTemplate.events({
     var leafsNo = leafsInGameTree(gameTree);
     var treeDepth = depthOfGameTree(gameTree);
 
-    Session.set("treeData", [gameTree]);
-    Session.set("mode", "synthesizeVerif");
+    // Session.set("treeData", [gameTree]);
+    // Session.set("mode", "synthesizeVerif");
     // console.log("synthesizeVerif");
     makeD3treeFromGameData(formula, structure, gameTree, leafsNo, treeDepth, "#d3svg-game svg");
 
   },
   "click #synthesizeFalsi": function(event, template) {
     $("#d3svg-game").empty();
-    Session.set("mode", "synthesizeFalsi");
+    // Session.set("mode", "synthesizeFalsi");
     // var formula = new Formula({ascii: Template.parentData(0).formulaAscii});
     // var structure = new Formula({ascii: Template.parentData(0).structureAscii});
     var formula = new Formula({ascii: Session.get('currentGame').formulaAscii});
@@ -110,7 +110,7 @@ Template.viewGameTemplate.events({
     var leafsNo = leafsInGameTree(gameTree);
     var treeDepth = depthOfGameTree(gameTree);
 
-    Session.set("treeData", [gameTree]);
+    // Session.set("treeData", [gameTree]);
     // console.log("synthesizeFalsi");
     makeD3treeFromGameData(formula, structure, gameTree, leafsNo, treeDepth, "#d3svg-game svg");
   }
@@ -384,13 +384,38 @@ function makeD3treeFromGameData(formula, structure, gameTree, leafsNo, treeDepth
 
         nodeUpdate.select("rect")
           .attr("width", function(d) {
-              var w;
-              // if (d._children) w = this.previousElementSibling.clientWidth + 10;
-              if (d.children) w = this.previousElementSibling.clientWidth + 10;
-              else w = 60;
+            if (this.previousElementSibling.clientWidth) {
+              if (d.children) {
+                return this.previousElementSibling.clientWidth + 10;
+              } else {
+                return 60;
+              }
+            } else { //firefox (gecko-based browsers) & edge (all ie-brosers) have clientWidth 0
+              if (d.children) {
+                return this.previousElementSibling.childNodes[0].length * 10 + 10;
+              } else {
+                return 60;
+              }
+            }
+              /* var w;
+                // if (!this.previousElementSibling.clientWidth) {
+                  w = this.previousElementSibling.childNodes[0].length * 10 + 20;
+                // } else {
+                  // w = this.previousElementSibling.clientWidth + 10;
+                // }
+              } else {
+                w = 60;
+              }
               return w;
+              */
             })
-          .attr('height', function() { return this.previousElementSibling.clientHeight + 10;} )
+          .attr('height', function() {
+            if (this.previousElementSibling.clientWidth) {
+              return this.previousElementSibling.clientHeight + 10;
+            } else {
+              return 27;
+            }
+          })
           .attr('rx', 10).attr('ry', 10)
           // .style("fill", function(d) { return d._children ? "#f00" : "#5bc0de"; }) //#D2E4D2  "lightsteelblue"
           .style("fill", function(d) {
@@ -411,9 +436,20 @@ function makeD3treeFromGameData(formula, structure, gameTree, leafsNo, treeDepth
           .attr('transform', function(d){
               var xdev, ydev;
               // if (d._children) xdev = (this.previousElementSibling.clientWidth+10)/2;
-              if (d.children) xdev = (this.previousElementSibling.clientWidth+10)/2;
-              else xdev = 30;
-              ydev = (this.previousElementSibling.clientHeight+10)/2 + 5;
+              if (d.children) {
+                if (this.previousElementSibling.clientHeight) {
+                  xdev = (this.previousElementSibling.clientWidth+10)/2;
+                } else {
+                  xdev = (this.previousElementSibling.childNodes[0].length * 10 + 10)/2;
+                }
+              } else {
+                xdev = 30;
+              }
+              if (this.previousElementSibling.clientHeight) {
+                ydev = (this.previousElementSibling.clientHeight+10)/2 + 5;
+              } else {
+                ydev = 15;
+              }
               return "translate("+ -xdev + ',' + -ydev + ')';
           });
 

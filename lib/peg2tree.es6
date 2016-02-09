@@ -44,17 +44,7 @@ formulaPeg2tree = (formulaPeg) => {
       formulaPeg[0] === "*" || formulaPeg[0] === "#")
     return {
       name: formulaPeg[0],
-      hoverLabel: () => {
-        if (formulaPeg[0] === "~") {
-          return "negation"
-        } else if (formulaPeg[0] === "#") {
-          return "necessity"
-        } else if (formulaPeg[0] === "*") {
-          return "possibility"
-        } else {
-          throw new Error("formulaPeg2tree called with bad imput");
-        }
-      },
+      hoverLabel: "unary operator",
       children: [ formulaPeg2tree(formulaPeg[1]) ]
     };
   else if ( formulaPeg[2] === "&" || formulaPeg[2] === "|" ||

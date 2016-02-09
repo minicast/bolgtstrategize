@@ -32,7 +32,7 @@ Template.viewGameTemplate.events({
     );
     var leafsNo = leafsInGameTree(gameTree);
     var treeDepth = depthOfGameTree(gameTree);
-    Session.set("treeData", [gameTree]);
+    // Session.set("treeData", [gameTree]);
 
     // ViewGames.update({_id: "iPCzi7ERb2dTxdcRc"}, {$set: {createdAt: Date.now()}});
     makeD3treeFromGameData(formula, structure, gameTree, leafsNo, treeDepth, "#d3svg-game svg");
